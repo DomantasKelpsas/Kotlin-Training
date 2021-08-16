@@ -41,4 +41,5 @@
             android:name="letter"
             app:argType="string" />
     </fragment>
+    <include app:graph="@navigation/agreement_graph" />
 </navigation>
