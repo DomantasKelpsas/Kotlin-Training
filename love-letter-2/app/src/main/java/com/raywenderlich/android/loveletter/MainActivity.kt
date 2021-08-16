@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             layoutInflater, R.layout.nav_header_main, activityMainBinding.navView, false
         )
         headerBinding.ivEdit.setOnClickListener {
-            // TODO: navigate to edit profile fragment
+            navController.navigate(R.id.editProfileFragment)
 
             drawerLayout.closeDrawer(GravityCompat.START)
         }
@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navView.setNavigationItemSelectedListener(this)
 
         fab.setOnClickListener {
-            // TODO: navigate to create letter fragment
+            navController.navigate(R.id.createLetterFragment)
 
         }
     }
