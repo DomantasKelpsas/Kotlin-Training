@@ -35,6 +35,8 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import com.google.android.material.navigation.NavigationView
 import com.raywenderlich.android.loveletter.databinding.ActivityMainBinding
 import com.raywenderlich.android.loveletter.databinding.NavHeaderMainBinding
@@ -44,8 +46,16 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-  // TODO: initialize navController
+  private val navController by lazy { findNavController(R.id.nav_host_fragment)}
 
+  private val appBarConfiguration by lazy {
+    AppBarConfiguration(
+      setOf(
+        R.id.sentFragment,
+        R.id.inboxFragment
+      ), drawerLayout
+    )
+  }
   // TODO: initialize appBarConfiguration
 
   private var lettersViewModel: LettersViewModel? = null
