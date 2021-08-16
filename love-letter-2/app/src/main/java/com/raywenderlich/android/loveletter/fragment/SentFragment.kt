@@ -35,13 +35,14 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.raywenderlich.android.loveletter.R
 import com.raywenderlich.android.loveletter.adapter.LetterAdapter
 import com.raywenderlich.android.loveletter.model.FragmentType
 import com.raywenderlich.android.loveletter.model.Letter
 import com.raywenderlich.android.loveletter.viewmodel.LettersViewModel
 import kotlinx.android.synthetic.main.fragment_sent.*
 
-class SentFragment : Fragment() {
+class SentFragment : Fragment(R.layout.fragment_sent) {
 
   private val lettersViewModel: LettersViewModel? = null
 
