@@ -36,10 +36,13 @@
         android:id="@+id/presentationFragment"
         android:name="com.raywenderlich.android.loveletter.fragment.PresentationFragment"
         android:label="@string/presentation"
-        tools:layout="@layout/fragment_presentation" >
+        tools:layout="@layout/fragment_presentation">
         <argument
             android:name="letter"
             app:argType="string" />
+        <deepLink
+            android:id="@+id/deepLink3"
+            app:uri="www.loveletter.com/letter/{letter}" />
     </fragment>
     <include app:graph="@navigation/agreement_graph" />
 </navigation>
