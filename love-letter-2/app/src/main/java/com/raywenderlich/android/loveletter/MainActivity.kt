@@ -30,13 +30,16 @@
 
 package com.raywenderlich.android.loveletter
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
 import com.raywenderlich.android.loveletter.databinding.ActivityMainBinding
 import com.raywenderlich.android.loveletter.databinding.NavHeaderMainBinding
@@ -46,107 +49,123 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-  private val navController by lazy { findNavController(R.id.nav_host_fragment)}
+    private val navController by lazy { findNavController(R.id.nav_host_fragment) }
 
-  private val appBarConfiguration by lazy {
-    AppBarConfiguration(
-      setOf(
-        R.id.sentFragment,
-        R.id.inboxFragment
-      ), drawerLayout
-    )
-  }
-  // TODO: initialize appBarConfiguration
-
-  private var lettersViewModel: LettersViewModel? = null
-  private lateinit var headerBinding: NavHeaderMainBinding
-
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setupDataBinding()
-    setSupportActionBar(toolbar)
-    setupNavigation()
-    setupViewModel()
-    setupViews()
-  }
-
-  override fun onDestroy() {
-    lettersViewModel?.apply { closeDb() }
-    super.onDestroy()
-  }
-
-  private fun setupDataBinding() {
-    val activityMainBinding =
-      DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-
-    headerBinding = DataBindingUtil.inflate(
-      layoutInflater, R.layout.nav_header_main, activityMainBinding.navView, false
-    )
-    headerBinding.ivEdit.setOnClickListener {
-      // TODO: navigate to edit profile fragment
-
-      drawerLayout.closeDrawer(GravityCompat.START)
+    private val appBarConfiguration by lazy {
+        AppBarConfiguration(
+            setOf(
+                R.id.sentFragment,
+                R.id.inboxFragment
+            ), drawerLayout
+        )
     }
-    activityMainBinding.navView.addHeaderView(headerBinding.root)
-  }
 
-  private fun setupNavigation() {
-    // TODO: setup navController with drawerLayout
+    private var lettersViewModel: LettersViewModel? = null
+    private lateinit var headerBinding: NavHeaderMainBinding
 
-    // TODO: setup navController with toolbar and appBarConfiguration
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setupDataBinding()
+        setSupportActionBar(toolbar)
+        setupNavigation()
+        setupViewModel()
+        setupViews()
+    }
 
-    // TODO: add destination listener to navController
+    override fun onDestroy() {
+        lettersViewModel?.apply { closeDb() }
+        super.onDestroy()
+    }
 
-  }
+    private fun setupDataBinding() {
+        val activityMainBinding =
+            DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
 
-  private fun setupViewModel() {
-    // TODO: initialize lettersViewModel
+        headerBinding = DataBindingUtil.inflate(
+            layoutInflater, R.layout.nav_header_main, activityMainBinding.navView, false
+        )
+        headerBinding.ivEdit.setOnClickListener {
+            // TODO: navigate to edit profile fragment
 
-    // TODO: assign lettersViewModel to headerBinding
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
+        activityMainBinding.navView.addHeaderView(headerBinding.root)
+    }
 
-    // TODO: load profile with lettersViewModel
+    private fun setupNavigation() {
+        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
 
-  }
+        NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration)
 
-  private fun setupViews() {
-    navView.setNavigationItemSelectedListener(this)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id in arrayOf(
+                    R.id.createLetterFragment,
+                    R.id.presentationFragment,
+                    R.id.editProfileFragment
+                )
+            ) {
+                fab.hide()
+            } else {
+                fab.show()
+            }
 
-    fab.setOnClickListener {
-      // TODO: navigate to create letter fragment
+            if (destination.id == R.id.presentationFragment) {
+                toolbar.visibility = View.GONE
+            } else {
+                toolbar.visibility = View.VISIBLE
+            }
+        }
 
     }
-  }
 
-  override fun onBackPressed() {
-    if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-      drawerLayout.closeDrawer(GravityCompat.START)
-    } else {
-      super.onBackPressed()
+    private fun setupViewModel() {
+        // TODO: initialize lettersViewModel
+
+        // TODO: assign lettersViewModel to headerBinding
+
+        // TODO: load profile with lettersViewModel
+
     }
-  }
 
-  override fun onNavigationItemSelected(item: MenuItem): Boolean {
-    when (item.itemId) {
+    private fun setupViews() {
+        navView.setNavigationItemSelectedListener(this)
 
-      R.id.nav_inbox -> {
-        // TODO: navigate to inbox fragment
-      }
+        fab.setOnClickListener {
+            // TODO: navigate to create letter fragment
 
-      R.id.nav_sent -> {
-        // TODO: navigate to sent fragment
-      }
-
-      R.id.nav_privacy_policy -> {
-        // TODO: navigate to privacy policy fragment
-
-      }
-
-      R.id.nav_terms_of_service -> {
-        // TODO: navigate to privacy terms of service fragment
-
-      }
+        }
     }
-    drawerLayout.closeDrawer(GravityCompat.START)
-    return true
-  }
+
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+
+            R.id.nav_inbox -> {
+                navController.popBackStack(R.id.inboxFragment, false)
+            }
+
+            R.id.nav_sent -> {
+                navController.navigate(R.id.sentFragment)
+            }
+
+            R.id.nav_privacy_policy -> {
+                navController.navigate(Uri.parse("loveletter://agreement/privacy-policy"))
+
+            }
+
+            R.id.nav_terms_of_service -> {
+                navController.navigate(Uri.parse("loveletter://agreement/terms-of-service"))
+
+            }
+        }
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
+    }
 }
