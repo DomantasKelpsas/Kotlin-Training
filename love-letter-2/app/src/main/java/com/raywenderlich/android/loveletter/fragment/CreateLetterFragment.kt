@@ -46,7 +46,7 @@ import com.raywenderlich.android.loveletter.viewmodel.LettersViewModel
 
 class CreateLetterFragment : Fragment() {
 
-    private val lettersViewModel: LettersViewModel by navGraphViewModels(R.id.nav_graph)
+    private val lettersViewModel: LettersViewModel by navGraphViewModels(R.id.bottom_nav_graph)
 
     override fun onCreateView(
         inflater: LayoutInflater,

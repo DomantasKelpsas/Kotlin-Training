@@ -47,7 +47,7 @@ import kotlinx.android.synthetic.main.fragment_sent.*
 
 class SentFragment : Fragment(R.layout.fragment_sent) {
 
-    private val lettersViewModel: LettersViewModel by navGraphViewModels(R.id.nav_graph)
+    private val lettersViewModel: LettersViewModel by navGraphViewModels(R.id.bottom_nav_graph)
 
     private val adapter by lazy { LetterAdapter(FragmentType.SENT) }
 

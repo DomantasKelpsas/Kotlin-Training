@@ -49,7 +49,7 @@ import kotlinx.android.synthetic.main.letter_page_title.view.*
 
 class PresentationFragment : Fragment(R.layout.fragment_presentation) {
 
-    private val lettersViewModel: LettersViewModel? by navGraphViewModels(R.id.nav_graph)
+    private val lettersViewModel: LettersViewModel? by navGraphViewModels(R.id.bottom_nav_graph)
 
     private val args: PresentationFragmentArgs by navArgs()
 

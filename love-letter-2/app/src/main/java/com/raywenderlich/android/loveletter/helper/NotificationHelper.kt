@@ -98,7 +98,7 @@ class NotificationHelper(val context: Context) {
     val bundle = Bundle()
     bundle.putString(EXTRA_LETTER, gson.toJson(letter))
     return NavDeepLinkBuilder(context)
-      .setGraph(R.navigation.nav_graph)
+      .setGraph(R.navigation.bottom_nav_graph)
       .setDestination(R.id.presentationFragment)
       .setArguments(bundle)
       .createPendingIntent()

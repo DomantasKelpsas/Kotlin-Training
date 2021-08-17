@@ -41,6 +41,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.raywenderlich.android.loveletter.databinding.ActivityMainBinding
 import com.raywenderlich.android.loveletter.databinding.NavHeaderMainBinding
@@ -48,7 +50,7 @@ import com.raywenderlich.android.loveletter.viewmodel.LettersViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     private val navController by lazy { findNavController(R.id.nav_host_fragment) }
 
@@ -57,12 +59,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             setOf(
                 R.id.sentFragment,
                 R.id.inboxFragment
-            ), drawerLayout
+            )
         )
     }
 
     private var lettersViewModel: LettersViewModel? = null
-    private lateinit var headerBinding: NavHeaderMainBinding
+//    private lateinit var headerBinding: NavHeaderMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,19 +84,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val activityMainBinding =
             DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
 
-        headerBinding = DataBindingUtil.inflate(
-            layoutInflater, R.layout.nav_header_main, activityMainBinding.navView, false
-        )
-        headerBinding.ivEdit.setOnClickListener {
-            navController.navigate(R.id.editProfileFragment)
-
-            drawerLayout.closeDrawer(GravityCompat.START)
-        }
-        activityMainBinding.navView.addHeaderView(headerBinding.root)
+//        headerBinding = DataBindingUtil.inflate(
+//            layoutInflater, R.layout.nav_header_main, activityMainBinding.navView, false
+//        )
+//        headerBinding.ivEdit.setOnClickListener {
+//            navController.navigate(R.id.editProfileFragment)
+//
+//            drawerLayout.closeDrawer(GravityCompat.START)
+//        }
+//        activityMainBinding.navView.addHeaderView(headerBinding.root)
     }
 
     private fun setupNavigation() {
-        NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
+        NavigationUI.setupActionBarWithNavController(this, navController)
 
         NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration)
 
@@ -122,19 +124,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun setupViewModel() {
         try {
             val viewModelProvider = ViewModelProvider(
-                navController.getViewModelStoreOwner(R.id.nav_graph),
+                navController.getViewModelStoreOwner(R.id.bottom_nav_graph),
                 ViewModelProvider.AndroidViewModelFactory(application)
             )
             lettersViewModel = viewModelProvider.get(LettersViewModel::class.java)
-            headerBinding.viewModel = lettersViewModel
-            lettersViewModel?.loadProfile()
+            //headerBinding.viewModel = lettersViewModel
+            //lettersViewModel?.loadProfile()
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()
         }
     }
 
     private fun setupViews() {
-        navView.setNavigationItemSelectedListener(this)
+        bottom_nav.setOnNavigationItemSelectedListener(this)
 
         fab.setOnClickListener {
             navController.navigate(R.id.createLetterFragment)
@@ -143,11 +145,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
+        navController.popBackStack(R.id.inboxFragment, false)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -171,7 +169,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             }
         }
-        drawerLayout.closeDrawer(GravityCompat.START)
+        //drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 }
