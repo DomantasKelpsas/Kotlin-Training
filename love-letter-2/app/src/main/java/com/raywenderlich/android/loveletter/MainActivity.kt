@@ -35,17 +35,14 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 import com.raywenderlich.android.loveletter.databinding.ActivityMainBinding
-import com.raywenderlich.android.loveletter.databinding.NavHeaderMainBinding
+import com.raywenderlich.android.loveletter.databinding.AppBarMainBinding
 import com.raywenderlich.android.loveletter.viewmodel.LettersViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -64,7 +61,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private var lettersViewModel: LettersViewModel? = null
-//    private lateinit var headerBinding: NavHeaderMainBinding
+    private var binding: AppBarMainBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,18 +78,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private fun setupDataBinding() {
-        val activityMainBinding =
-            DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-
-//        headerBinding = DataBindingUtil.inflate(
-//            layoutInflater, R.layout.nav_header_main, activityMainBinding.navView, false
+        val activityMainBinding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+//        binding = DataBindingUtil.inflate(
+//            layoutInflater, R.layout.app_bar_main, activityMainBinding.linearLayout, false
 //        )
-//        headerBinding.ivEdit.setOnClickListener {
-//            navController.navigate(R.id.editProfileFragment)
-//
-//            drawerLayout.closeDrawer(GravityCompat.START)
-//        }
-//        activityMainBinding.navView.addHeaderView(headerBinding.root)
+/** how to get app bar main binding **/
+        
     }
 
     private fun setupNavigation() {
@@ -118,7 +109,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 toolbar.visibility = View.VISIBLE
             }
         }
-
     }
 
     private fun setupViewModel() {
@@ -128,8 +118,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 ViewModelProvider.AndroidViewModelFactory(application)
             )
             lettersViewModel = viewModelProvider.get(LettersViewModel::class.java)
-            //headerBinding.viewModel = lettersViewModel
-            //lettersViewModel?.loadProfile()
+            binding?.viewModel = lettersViewModel /** is this correct? **/
+            lettersViewModel?.loadProfile()
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()
         }
@@ -159,17 +149,18 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 navController.navigate(R.id.sentFragment)
             }
 
+            R.id.nav_edit_profile -> {
+                navController.navigate(R.id.editProfileFragment)
+            }
+
             R.id.nav_privacy_policy -> {
                 navController.navigate(Uri.parse("loveletter://agreement/privacy-policy"))
-
             }
 
             R.id.nav_terms_of_service -> {
                 navController.navigate(Uri.parse("loveletter://agreement/terms-of-service"))
-
             }
         }
-        //drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 }

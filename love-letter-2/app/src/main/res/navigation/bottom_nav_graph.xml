@@ -27,7 +27,11 @@
         android:name="com.raywenderlich.android.loveletter.fragment.CreateLetterFragment"
         android:label="@string/create_letter"
         tools:layout="@layout/fragment_create_letter" />
-
+    <dialog
+        android:id="@+id/editProfileFragment"
+        android:name="com.raywenderlich.android.loveletter.fragment.EditProfileFragment"
+        android:label="@string/edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/presentationFragment"
         android:name="com.raywenderlich.android.loveletter.fragment.PresentationFragment"
