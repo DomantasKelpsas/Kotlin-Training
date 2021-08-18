@@ -33,24 +33,39 @@
   -->
 
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:id="@+id/navigation_graph"
-  app:startDestination="@id/travelInformationFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/travelInformationFragment">
 
-  <fragment
-    android:id="@+id/travelInformationFragment"
-    android:name="com.raywenderlich.android.safeargs.travel_information.TravelInformationFragment"
-    android:label="TravelInformationFragment">
-    <action
-      android:id="@+id/action_travelInformationFragment_to_confirmationFragment"
-      app:destination="@id/confirmationFragment">
+    <fragment
+        android:id="@+id/travelInformationFragment"
+        android:name="com.raywenderlich.android.safeargs.travel_information.TravelInformationFragment"
+        android:label="TravelInformationFragment"
+        tools:layout="@layout/fragment_travel_information">
+        <action
+            android:id="@+id/action_travelInformationFragment_to_confirmationFragment"
+            app:destination="@id/confirmationFragment">
 
-      <!-- Add action arguments here -->
-    </action>
-  </fragment>
+            <!-- Add action arguments here -->
+        </action>
+    </fragment>
 
-  <fragment
-    android:id="@+id/confirmationFragment"
-    android:name="com.raywenderlich.android.safeargs.confirmation.ConfirmationFragment"
-    android:label="ConfirmationFragment" />
+    <fragment
+        android:id="@+id/confirmationFragment"
+        android:name="com.raywenderlich.android.safeargs.confirmation.ConfirmationFragment"
+        android:label="ConfirmationFragment"
+        tools:layout="@layout/fragment_confirmation">
+        <argument
+            android:name="promoCode"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="travelAddOns"
+            app:argType="integer[]" />
+        <argument
+            android:name="travelerInformation"
+            app:argType="com.raywenderlich.android.safeargs.TravelerInformation" />
+    </fragment>
 </navigation>

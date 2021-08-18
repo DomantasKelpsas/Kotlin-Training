@@ -34,13 +34,15 @@
 
 package com.raywenderlich.android.safeargs
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
 /**
  * Wraps personal user information required for the purchase of a plane ticket.
  */
-// add @Parcelize annotation here
+@Parcelize
 data class TravelerInformation(
     val fullName: String,
     val age: Int,
     val passportNumber: String
-)
+) : Parcelable

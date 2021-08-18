@@ -5,6 +5,7 @@ apply plugin: "kotlin-android"
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
 //add kotlin parcelize plugin here
+apply plugin: "kotlin-parcelize"
 
 android {
   compileSdkVersion rootProject.ext.compileSdkVersion

@@ -35,6 +35,7 @@
 package com.raywenderlich.android.safeargs.confirmation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,53 +51,75 @@ import com.raywenderlich.android.safeargs.databinding.FragmentConfirmationBindin
  */
 class ConfirmationFragment : Fragment() {
 
-  private lateinit var binding: FragmentConfirmationBinding
+    private lateinit var binding: FragmentConfirmationBinding
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-    binding = FragmentConfirmationBinding.inflate(inflater, container, false)
-    return binding.root
-  }
-
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
-
-    // Retrieve passed arguments and display them
-    // TODO: Get travel information from previous screen
-
-    // Set up confirmation button click listener
-    binding.confirmTravelInformationButton.setOnClickListener {
-      Toast.makeText(requireContext(), R.string.travel_information_confirmation_message, Toast.LENGTH_SHORT).show()
-    }
-  }
-
-  private fun showTravelerInformation(travelerInformation: TravelerInformation) {
-    binding.fullNameTextView.text = getString(R.string.traveler_information_full_name, travelerInformation.fullName)
-    binding.ageTextView.text = getString(R.string.traveler_information_age, travelerInformation.age)
-    binding.passportNumberTextView.text = getString(R.string.traveler_information_passport_number, travelerInformation.passportNumber)
-  }
-
-  private fun showTravelAddOns(travelAddOns: IntArray) {
-    if (travelAddOns.isEmpty()) {
-      binding.travelAddOnsTextView.text = getString(R.string.travel_add_ons_none)
-      return
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentConfirmationBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    val addOns = StringBuilder()
-    for (i in travelAddOns.indices) {
-      val addOn = TravelAddOnsProvider.get(travelAddOns[i])
-      addOns.append(addOn.label)
-      if (i != travelAddOns.lastIndex) {
-        addOns.append(", ")
-      }
-    }
-    binding.travelAddOnsTextView.text = addOns.toString()
-  }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-  private fun showPromoCode(promoCode: String?) {
-    if (promoCode.isNullOrBlank()) {
-      binding.promoCodeTextView.text = getString(R.string.promo_code_none)
-    } else {
-      binding.promoCodeTextView.text = promoCode
+        // Retrieve passed arguments and display them
+        val bundle = arguments
+        if (bundle == null) {
+            Log.e("Confirmation", "ConfirmationFragment did not receive traveler information")
+            return
+        }
+
+        val args = ConfirmationFragmentArgs.fromBundle(bundle)
+        showTravelerInformation(args.travelerInformation)
+        showTravelAddOns(args.travelAddOns)
+        showPromoCode(args.promoCode)
+
+        // Set up confirmation button click listener
+        binding.confirmTravelInformationButton.setOnClickListener {
+            Toast.makeText(
+                requireContext(),
+                R.string.travel_information_confirmation_message,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
-  }
+
+    private fun showTravelerInformation(travelerInformation: TravelerInformation) {
+        binding.fullNameTextView.text =
+            getString(R.string.traveler_information_full_name, travelerInformation.fullName)
+        binding.ageTextView.text =
+            getString(R.string.traveler_information_age, travelerInformation.age)
+        binding.passportNumberTextView.text = getString(
+            R.string.traveler_information_passport_number,
+            travelerInformation.passportNumber
+        )
+    }
+
+    private fun showTravelAddOns(travelAddOns: IntArray) {
+        if (travelAddOns.isEmpty()) {
+            binding.travelAddOnsTextView.text = getString(R.string.travel_add_ons_none)
+            return
+        }
+
+        val addOns = StringBuilder()
+        for (i in travelAddOns.indices) {
+            val addOn = TravelAddOnsProvider.get(travelAddOns[i])
+            addOns.append(addOn.label)
+            if (i != travelAddOns.lastIndex) {
+                addOns.append(", ")
+            }
+        }
+        binding.travelAddOnsTextView.text = addOns.toString()
+    }
+
+    private fun showPromoCode(promoCode: String?) {
+        if (promoCode.isNullOrBlank()) {
+            binding.promoCodeTextView.text = getString(R.string.promo_code_none)
+        } else {
+            binding.promoCodeTextView.text = promoCode
+        }
+    }
 }
