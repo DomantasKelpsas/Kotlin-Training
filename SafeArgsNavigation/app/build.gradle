@@ -1,6 +1,8 @@
 apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
+
 // add safeargs plugin here
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 //add kotlin parcelize plugin here
 

@@ -46,35 +46,46 @@ import com.raywenderlich.android.safeargs.databinding.ListItemTravelAddOnBinding
  * [RecyclerView.Adapter] for travel add-ons that displays a list of add-ons and allows the user
  * to select none, one or many.
  */
-class TravelAddOnsAdapter(private val addOns: List<TravelAddOn>, private val clickListener: TravelAddOnsClickListener) : RecyclerView.Adapter<TravelAddOnsAdapter.TravelAddOnViewHolder>() {
+class TravelAddOnsAdapter(
+    private val addOns: List<TravelAddOn>,
+    private val clickListener: TravelAddOnsClickListener
+) : RecyclerView.Adapter<TravelAddOnsAdapter.TravelAddOnViewHolder>() {
 
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TravelAddOnViewHolder {
-    val inflater = LayoutInflater.from(parent.context)
-    val binding = ListItemTravelAddOnBinding.inflate(inflater, parent, false)
-    return TravelAddOnViewHolder(binding)
-  }
-
-  override fun onBindViewHolder(holder: TravelAddOnViewHolder, position: Int) {
-    holder.bind(addOns[position], clickListener)
-  }
-
-  override fun getItemCount() = addOns.size
-
-  class TravelAddOnViewHolder(private val binding: ListItemTravelAddOnBinding) : RecyclerView.ViewHolder(binding.root) {
-
-    fun bind(addOn: TravelAddOn, clickListener: TravelAddOnsClickListener) {
-      binding.addOnLabel.text = addOn.label
-      binding.addOnIcon.setImageDrawable(ContextCompat.getDrawable(itemView.context, addOn.icon))
-      itemView.setOnClickListener {
-        val visibility = binding.addOnCheckedOverlay.visibility
-        if (visibility == View.VISIBLE) {
-          binding.addOnCheckedOverlay.visibility = View.GONE
-          clickListener.remove(addOn)
-        } else {
-          binding.addOnCheckedOverlay.visibility = View.VISIBLE
-          clickListener.add(addOn)
-        }
-      }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TravelAddOnViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ListItemTravelAddOnBinding.inflate(inflater, parent, false)
+        return TravelAddOnViewHolder(binding)
     }
-  }
+
+    override fun onBindViewHolder(holder: TravelAddOnViewHolder, position: Int) {
+        holder.bind(addOns[position], clickListener)
+    }
+
+    override fun getItemCount() = addOns.size
+
+    class TravelAddOnViewHolder(private val binding: ListItemTravelAddOnBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(addOn: TravelAddOn, clickListener: TravelAddOnsClickListener) {
+            binding.apply {
+                addOnLabel.text = addOn.label
+                addOnIcon.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        itemView.context,
+                        addOn.icon
+                    )
+                )
+                itemView.setOnClickListener {
+                    val visibility = addOnCheckedOverlay.visibility
+                    if (visibility == View.VISIBLE) {
+                        addOnCheckedOverlay.visibility = View.GONE
+                        clickListener.remove(addOn)
+                    } else {
+                        addOnCheckedOverlay.visibility = View.VISIBLE
+                        clickListener.add(addOn)
+                    }
+                }
+            }
+        }
+    }
 }
