@@ -69,7 +69,12 @@ class TravelInformationFragment : Fragment() {
     // When the user clicks on next, get the information they entered, and pass it to the confirmation screen
     binding.next.setOnClickListener {
       // TODO: Pass travel information to confirmation screen
-      findNavController().navigate(R.id.action_travelInformationFragment_to_confirmationFragment)
+      val travelerInformation = getTravelerInformation()
+      val addOns = getAddOns(clickListener)
+      val promoCode = getPromoCode()
+
+      val directions = TravelInformationFragmentDirections.actionTravelInformationFragmentToConfirmationFragment(promoCode,addOns,travelerInformation)
+      findNavController().navigate(directions)
     }
   }
 

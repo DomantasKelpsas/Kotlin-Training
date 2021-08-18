@@ -48,6 +48,17 @@
             app:destination="@id/confirmationFragment">
 
             <!-- Add action arguments here -->
+            <argument
+                android:name="promoCode"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+            <argument
+                android:name="travelAddOns"
+                app:argType="integer[]" />
+            <argument
+                android:name="travelerInformation"
+                app:argType="com.raywenderlich.android.safeargs.TravelerInformation" />
         </action>
     </fragment>
 
@@ -58,9 +69,9 @@
         tools:layout="@layout/fragment_confirmation">
         <argument
             android:name="promoCode"
+            android:defaultValue="@null"
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <argument
             android:name="travelAddOns"
             app:argType="integer[]" />
