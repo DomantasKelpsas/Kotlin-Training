@@ -78,12 +78,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private fun setupDataBinding() {
-        val activityMainBinding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-//        binding = DataBindingUtil.inflate(
-//            layoutInflater, R.layout.app_bar_main, activityMainBinding.linearLayout, false
-//        )
-/** how to get app bar main binding **/
-        
+        val activityMainBinding =
+            DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        binding = activityMainBinding.appBarMain
+        /** how to get app bar main binding **/
+
     }
 
     private fun setupNavigation() {
@@ -118,7 +117,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 ViewModelProvider.AndroidViewModelFactory(application)
             )
             lettersViewModel = viewModelProvider.get(LettersViewModel::class.java)
-            binding?.viewModel = lettersViewModel /** is this correct? **/
+            binding?.viewModel = lettersViewModel
+            /** is this correct? **/
             lettersViewModel?.loadProfile()
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()
