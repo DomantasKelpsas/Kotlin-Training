@@ -52,58 +52,69 @@ import com.raywenderlich.android.safeargs.databinding.FragmentTravelInformationB
  */
 class TravelInformationFragment : Fragment() {
 
-  private lateinit var binding: FragmentTravelInformationBinding
+    private lateinit var binding: FragmentTravelInformationBinding
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-    binding = FragmentTravelInformationBinding.inflate(inflater, container, false)
-    return binding.root
-  }
-
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
-
-    // Set up add-ons list
-    val clickListener = TravelAddOnsClickListener()
-    setUpAddOns(clickListener)
-
-    // When the user clicks on next, get the information they entered, and pass it to the confirmation screen
-    binding.next.setOnClickListener {
-      // TODO: Pass travel information to confirmation screen
-      val travelerInformation = getTravelerInformation()
-      val addOns = getAddOns(clickListener)
-      val promoCode = getPromoCode()
-
-      val directions = TravelInformationFragmentDirections.actionTravelInformationFragmentToConfirmationFragment(promoCode,addOns,travelerInformation)
-      findNavController().navigate(directions)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentTravelInformationBinding.inflate(inflater, container, false)
+        return binding.root
     }
-  }
 
-  private fun setUpAddOns(clickListener: TravelAddOnsClickListener) {
-    val addOns = TravelAddOnsProvider.get()
-    with(binding.layoutTravelAddOns.travelAddOns) {
-      adapter = TravelAddOnsAdapter(addOns, clickListener)
-      layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.HORIZONTAL, false)
-      setHasFixedSize(true)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Set up add-ons list
+        val clickListener = TravelAddOnsClickListener()
+        setUpAddOns(clickListener)
+
+        // When the user clicks on next, get the information they entered, and pass it to the confirmation screen
+        binding.next.setOnClickListener {
+            val travelerInformation = getTravelerInformation()
+            val addOns = getAddOns(clickListener)
+            val promoCode = getPromoCode()
+
+            val directions =
+                TravelInformationFragmentDirections.actionTravelInformationFragmentToConfirmationFragment(
+                    promoCode,
+                    addOns,
+                    travelerInformation
+                )
+            findNavController().navigate(directions)
+        }
     }
-  }
 
-  private fun getTravelerInformation(): TravelerInformation {
-    return TravelerInformation(
-        fullName = binding.layoutTravelInformation.fullNameEditText.text.toString(),
-        age = try {
-          binding.layoutTravelInformation.ageEditText.text.toString().toInt()
-        } catch (exception: NumberFormatException) {
-          0
-        },
-        passportNumber = binding.layoutTravelInformation.passportNumberEditText.text.toString()
-    )
-  }
+    private fun setUpAddOns(clickListener: TravelAddOnsClickListener) {
+        val addOns = TravelAddOnsProvider.get()
+        with(binding.layoutTravelAddOns.travelAddOns) {
+            adapter = TravelAddOnsAdapter(addOns, clickListener)
+            layoutManager =
+                GridLayoutManager(requireContext(), 2, GridLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+        }
+    }
 
-  private fun getAddOns(clickListener: TravelAddOnsClickListener): IntArray {
-    return clickListener.get().map { addOn -> addOn.id }.toIntArray()
-  }
+    private fun getTravelerInformation(): TravelerInformation {
+        val bindingTravelInfo = binding.layoutTravelInformation
 
-  private fun getPromoCode(): String {
-    return binding.layoutPromoCode.promoCodeEditText.text.toString()
-  }
+        return TravelerInformation(
+            fullName = bindingTravelInfo.fullNameEditText.text.toString(),
+            age = try {
+                bindingTravelInfo.ageEditText.text.toString().toInt()
+            } catch (exception: NumberFormatException) {
+                0
+            },
+            passportNumber = bindingTravelInfo.passportNumberEditText.text.toString()
+        )
+    }
+
+    private fun getAddOns(clickListener: TravelAddOnsClickListener): IntArray {
+        return clickListener.get().map { addOn -> addOn.id }.toIntArray()
+    }
+
+    private fun getPromoCode(): String {
+        return binding.layoutPromoCode.promoCodeEditText.text.toString()
+    }
 }
