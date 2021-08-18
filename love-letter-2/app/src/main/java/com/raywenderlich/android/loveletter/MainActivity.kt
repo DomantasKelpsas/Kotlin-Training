@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private var lettersViewModel: LettersViewModel? = null
-    private var binding: AppBarMainBinding? = null
+    private lateinit var binding: AppBarMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,15 +97,25 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     R.id.editProfileFragment
                 )
             ) {
-                fab.hide()
+                binding.apply {
+                    fab.hide()
+                    profileName.visibility = View.GONE
+                }
             } else {
-                fab.show()
+                binding.apply {
+                    fab.show()
+                    profileName.visibility = View.VISIBLE
+                }
             }
 
             if (destination.id == R.id.presentationFragment) {
-                toolbar.visibility = View.GONE
+                binding.apply {
+                    toolbar.visibility = View.GONE
+                }
             } else {
-                toolbar.visibility = View.VISIBLE
+                binding.apply {
+                    toolbar.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -117,7 +127,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 ViewModelProvider.AndroidViewModelFactory(application)
             )
             lettersViewModel = viewModelProvider.get(LettersViewModel::class.java)
-            binding?.viewModel = lettersViewModel
+            binding.viewModel = lettersViewModel
             /** is this correct? **/
             lettersViewModel?.loadProfile()
         } catch (e: IllegalArgumentException) {
