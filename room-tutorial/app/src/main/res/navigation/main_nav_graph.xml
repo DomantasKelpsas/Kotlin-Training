@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020 Razeware LLC
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
+  ~ distribute, sublicense, create a derivative work, and/or sell copies of the
+  ~ Software in any work that is designed, intended, or marketed for pedagogical or
+  ~ instructional purposes related to programming, coding, application development,
+  ~ or information technology.  Permission for such use, copying, modification,
+  ~ merger, publication, distribution, sublicensing, creation of derivative works,
+  ~ or sale is expressly withheld.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  app:startDestination="@id/startSurveyFragment"
+  tools:ignore="UnusedNavigation">
+
+  <fragment
+    android:id="@+id/allSurveysFragment"
+    android:name="com.raywenderlich.android.customersurveys.allsurveys.AllSurveysFragment"
+    android:label="All Surveys"
+    tools:layout="@layout/fragment_all_surveys" />
+  <fragment
+    android:id="@+id/startSurveyFragment"
+    android:name="com.raywenderlich.android.customersurveys.startsurvey.StartSurveyFragment"
+    android:label="Start Survey"
+    tools:layout="@layout/fragment_start_survey">
+    <action
+      android:id="@+id/action_startSurveyFragment_to_surveyFragment"
+      app:destination="@id/surveyFragment" />
+  </fragment>
+  <fragment
+    android:id="@+id/surveyFragment"
+    android:name="com.raywenderlich.android.customersurveys.customersurveys.CustomerSurveyFragment"
+    android:label="Survey"
+    tools:layout="@layout/fragment_customer_survey">
+    <action
+      android:id="@+id/action_surveyFragment_to_surveyCompletedFragment"
+      app:destination="@id/surveyCompletedFragment" />
+  </fragment>
+  <fragment
+    android:id="@+id/surveyCompletedFragment"
+    android:name="com.raywenderlich.android.customersurveys.completedsurvey.SurveyCompletedFragment"
+    android:label="Survey Completed"
+    tools:layout="@layout/fragment_survey_completed">
+    <action
+      android:id="@+id/action_surveyCompletedFragment_to_allSurveysFragment"
+      app:destination="@id/allSurveysFragment"
+      app:popUpTo="@id/startSurveyFragment"
+      app:popUpToInclusive="true" />
+  </fragment>
+</navigation>
