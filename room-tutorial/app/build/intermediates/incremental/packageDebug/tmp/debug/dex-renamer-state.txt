@@ -1,0 +1,4 @@
+#Tue Sep 28 11:58:31 EEST 2021
+base.0=/Users/develappers01/GIT/Kotlin-Training/room-tutorial/app/build/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
