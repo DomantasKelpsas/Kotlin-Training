@@ -23,6 +23,7 @@
 package com.raywenderlich.listmaster.listcategory
 
 import android.util.Log
+import androidx.lifecycle.ViewModel
 import com.raywenderlich.listmaster.R
 
 data class ListCategoryViewModel(val listCategory: ListCategory = ListCategory("")) {

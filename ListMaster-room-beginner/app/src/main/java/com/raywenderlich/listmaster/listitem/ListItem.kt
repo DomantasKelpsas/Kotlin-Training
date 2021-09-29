@@ -22,8 +22,25 @@
 
 package com.raywenderlich.listmaster.listitem
 
-data class ListItem(var itemDescription: String,
-                    var itemPriority: Int,
-                    var listCategoryId: Long,
-                    var id: Long = 0)
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
+import androidx.room.PrimaryKey
+import com.raywenderlich.listmaster.listcategory.ListCategory
 
+@Entity(
+    tableName = "list_items",
+    foreignKeys = [ForeignKey(
+        entity = ListCategory::class,
+        parentColumns = ["id"],
+        childColumns = ["list_category_id"],
+        onDelete = CASCADE
+    )]
+)
+data class ListItem(
+    @ColumnInfo(name = "item_description") var itemDescription: String,
+    @ColumnInfo(name = "item_priority") var itemPriority: Int,
+    @ColumnInfo(name = "list_category_id") var listCategoryId: Long,
+    @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) var id: Long = 0
+)
