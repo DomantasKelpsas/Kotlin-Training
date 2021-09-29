@@ -23,11 +23,18 @@
 package com.raywenderlich.listmaster
 
 import android.app.Application
+import androidx.room.Room
 
 
 class ListMasterApplication : Application() {
 
-  override fun onCreate() {
-    super.onCreate()
-  }
+    companion object {
+        lateinit var database: AppDatabase
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        ListMasterApplication.database =
+            Room.databaseBuilder(this, AppDatabase::class.java, "list-master-db").build()
+    }
 }
