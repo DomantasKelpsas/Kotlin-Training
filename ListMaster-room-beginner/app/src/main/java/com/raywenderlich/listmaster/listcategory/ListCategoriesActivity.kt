@@ -29,6 +29,7 @@ import android.os.AsyncTask
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.raywenderlich.listmaster.AppDatabase
 import com.raywenderlich.listmaster.ListMasterApplication
@@ -41,39 +42,27 @@ class ListCategoriesActivity : AppCompatActivity() {
 
     private lateinit var activityListsBinding: ActivityListCategoriesBinding
     private lateinit var listCategoryAdapter: ListCategoryAdapter
+
     private lateinit var contentListsBinding: ContentListCategoriesBinding
-    private lateinit var appDatabase: AppDatabase
-    private lateinit var listCategoryDao: ListCategoryDao
+    private lateinit var listCategoriesViewModel: ListCategoryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityListsBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_list_categories)
+        activityListsBinding = DataBindingUtil.setContentView(this, R.layout.activity_list_categories)
 
         // call our function to set up the add fab button logic
         setupAddButton()
 
-        // Set up our database
-        appDatabase = ListMasterApplication.database
-        listCategoryDao = appDatabase.listCategoryDao()
+        // Set up our categories viewmodel that accesses the database
+        listCategoriesViewModel = ViewModelProviders.of(this).get(ListCategoryViewModel::class.java)
 
         // Set up our recycler adapter
         setupRecyclerAdapter()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    override fun onResume() {
-        super.onResume()
-        AsyncTask.execute {
-            listCategoryAdapter.categoryList = listCategoryDao.getAll()
-            runOnUiThread { listCategoryAdapter.notifyDataSetChanged() }
-        }
-    }
-
     /**
      * sets up the Fab button to launch a dialog allowing the user to add an item to their list.
      */
-    @SuppressLint("NotifyDataSetChanged")
     private fun setupAddButton() {
         activityListsBinding.fab.setOnClickListener {
 
@@ -90,14 +79,12 @@ class ListCategoriesActivity : AppCompatActivity() {
 
             // Set up the positive and negative buttons. When the user clicks 'OK', a record is added to the
             // DB, the DB is queried, and the RecyclerView is updated.
-            alertDialogBuilder.setPositiveButton(android.R.string.ok) { dialog: DialogInterface, which: Int ->
-                AsyncTask.execute {
-                    listCategoryDao.insertAll(listCategoryViewModel.listCategory)
-                    listCategoryAdapter.categoryList = listCategoryDao.getAll()
-                    runOnUiThread { listCategoryAdapter.notifyDataSetChanged() }
-                }
+            alertDialogBuilder.setPositiveButton(android.R.string.ok) { dialog: DialogInterface,
+                                                                        which: Int ->
+                listCategoriesViewModel.insertAll(listCategoryViewModel.listCategory)
             }
-            alertDialogBuilder.setNegativeButton(android.R.string.cancel) { dialog: DialogInterface, which: Int -> }
+
+            alertDialogBuilder.setNegativeButton(android.R.string.cancel, null)
             alertDialogBuilder.show()
         }
     }
@@ -107,6 +94,12 @@ class ListCategoriesActivity : AppCompatActivity() {
         contentListsBinding = activityListsBinding.contentLists!!
         contentListsBinding.listCategoryRecyclerView.layoutManager = recyclerViewLinearLayoutManager
         listCategoryAdapter = ListCategoryAdapter(listOf(), this)
+        listCategoriesViewModel.listCategories.observe(this, Observer { listCategories: List<ListCategory>? ->
+            listCategories?.let {
+                listCategoryAdapter.categoryList = it
+                listCategoryAdapter.notifyDataSetChanged()
+            }
+        })
         contentListsBinding.listCategoryRecyclerView.adapter = listCategoryAdapter
     }
 }

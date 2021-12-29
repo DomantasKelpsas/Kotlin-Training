@@ -25,21 +25,26 @@ package com.raywenderlich.listmaster.listcategory
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import com.raywenderlich.listmaster.databinding.HolderListCategoryItemBinding
 
-data class ListCategoryAdapter(var categoryList: List<ListCategory>, private val listCategoriesActivity: ListCategoriesActivity) : RecyclerView.Adapter<ListCategoryViewHolder>() {
+data class ListCategoryAdapter(
+    var categoryList: List<ListCategory>,
+    private val listCategoriesActivity: ListCategoriesActivity
+) : RecyclerView.Adapter<ListCategoryViewHolder>() {
 
-  override fun getItemCount(): Int {
-    return categoryList.size
-  }
+    override fun getItemCount(): Int {
+        return categoryList.size
+    }
 
-  override fun onBindViewHolder(holder: ListCategoryViewHolder, position: Int) {
-    holder.setListCategoryItem(categoryList[position])
-  }
+    override fun onBindViewHolder(holder: ListCategoryViewHolder, position: Int) {
+        holder.setListCategoryItem(categoryList[position])
+    }
 
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListCategoryViewHolder {
-    val layoutInflater = LayoutInflater.from(parent.context)
-    val holderListCategoryItemBinding = HolderListCategoryItemBinding.inflate(layoutInflater, parent, false)
-    return ListCategoryViewHolder(holderListCategoryItemBinding, listCategoriesActivity)
-  }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListCategoryViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val holderListCategoryItemBinding =
+            HolderListCategoryItemBinding.inflate(layoutInflater, parent, false)
+        return ListCategoryViewHolder(holderListCategoryItemBinding, listCategoriesActivity)
+    }
 }

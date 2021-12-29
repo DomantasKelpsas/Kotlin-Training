@@ -1,0 +1,10 @@
+<resources>
+  <string name="app_name">Zoo Guide</string>
+  <string name="animals">Animals</string>
+  <string name="how_do_i_move">How do I move?</string>
+  <string name="what_do_i_eat">What do I eat?</string>
+  <string name="where_do_i_live">Where do I live?</string>
+  <string name="how_fast_do_i_move">How fast do I move?</string>
+  <string name="my_colors">My colors</string>
+  <string name="how_hungry_am_i">How hungry am I?</string>
+</resources>

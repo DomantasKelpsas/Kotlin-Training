@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "/Users/develappers01/GIT/Kotlin-Training/Zoo-Guide/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/content_main.xml",
+        "source": "/Users/develappers01/GIT/Kotlin-Training/Zoo-Guide/app/src/main/res/layout/content_main.xml"
+    },
+    {
+        "merged": "/Users/develappers01/GIT/Kotlin-Training/Zoo-Guide/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_animal.xml",
+        "source": "/Users/develappers01/GIT/Kotlin-Training/Zoo-Guide/app/src/main/res/layout/fragment_animal.xml"
+    },
+    {
+        "merged": "/Users/develappers01/GIT/Kotlin-Training/Zoo-Guide/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_list.xml",
+        "source": "/Users/develappers01/GIT/Kotlin-Training/Zoo-Guide/app/src/main/res/layout/fragment_list.xml"
+    },
+    {
+        "merged": "/Users/develappers01/GIT/Kotlin-Training/Zoo-Guide/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/list_item_color.xml",
+        "source": "/Users/develappers01/GIT/Kotlin-Training/Zoo-Guide/app/src/main/res/layout/list_item_color.xml"
+    },
+    {
+        "merged": "/Users/develappers01/GIT/Kotlin-Training/Zoo-Guide/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/list_item_animal.xml",
+        "source": "/Users/develappers01/GIT/Kotlin-Training/Zoo-Guide/app/src/main/res/layout/list_item_animal.xml"
+    },
+    {
+        "merged": "/Users/develappers01/GIT/Kotlin-Training/Zoo-Guide/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_main.xml",
+        "source": "/Users/develappers01/GIT/Kotlin-Training/Zoo-Guide/app/src/main/res/layout/activity_main.xml"
+    }
+]

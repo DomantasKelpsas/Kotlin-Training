@@ -1,0 +1,14 @@
+com/raywenderlich/android/databinding/ListItemAnimalBinding.java
+ com.raywenderlich.android.databinding.ListItemAnimalBinding
+com/raywenderlich/android/databinding/FragmentAnimalBinding.java
+ com.raywenderlich.android.databinding.FragmentAnimalBinding
+com/raywenderlich/android/databinding/ActivityMainBinding.java
+ com.raywenderlich.android.databinding.ActivityMainBinding
+com/raywenderlich/android/databinding/ListItemColorBinding.java
+ com.raywenderlich.android.databinding.ListItemColorBinding
+com/raywenderlich/android/BuildConfig.java
+ com.raywenderlich.android.BuildConfig
+com/raywenderlich/android/databinding/ContentMainBinding.java
+ com.raywenderlich.android.databinding.ContentMainBinding
+com/raywenderlich/android/databinding/FragmentListBinding.java
+ com.raywenderlich.android.databinding.FragmentListBinding
