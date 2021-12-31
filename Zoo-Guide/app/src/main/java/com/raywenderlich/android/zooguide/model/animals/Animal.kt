@@ -38,42 +38,41 @@ import android.util.Log
 import androidx.annotation.DrawableRes
 import com.raywenderlich.android.zooguide.model.food.Food
 import com.raywenderlich.android.zooguide.model.habitat.Habitat
-import kotlin.properties.Delegates
 
 // TODO: Define the Animal class as Abstract
 // TODO: Move the properties from the constructor to abstract fields
 
-open class Animal(
-    open val name: String,
-    @DrawableRes open val image: Int,
-    open val food: Food,
-    open val habitat: Habitat
-) {
+abstract class Animal {
 
-  init {
-    Log.i("Animal", "Initializing Animal Object...")
-  }
+    abstract val name: String
 
-  // TODO: Implement the getHungerAmount() as abstract to define it in the subclasses
+    @get:DrawableRes
+    abstract val image: Int
+    abstract val food: Food
+    abstract val habitat: Habitat
 
-  open fun getHungerAmount() : Int {
-    return 0
-  }
+    init {
+        Log.i("Animal", "Initializing Animal Object...")
+    }
 
-  override fun equals(other: Any?): Boolean {
-    if (other !is Animal) return false
+    // TODO: Implement the getHungerAmount() as abstract to define it in the subclasses
 
-    return (other.name == name
-        && other.image == image
-        && other.food == food
-        && other.habitat == habitat)
-  }
+    abstract fun getHungerAmount(): Int
 
-  override fun hashCode(): Int {
-    var result = name.hashCode()
-    result = 31 * result + image
-    result = 31 * result + food.hashCode()
-    result = 31 * result + habitat.hashCode()
-    return result
-  }
+    override fun equals(other: Any?): Boolean {
+        if (other !is Animal) return false
+
+        return (other.name == name
+                && other.image == image
+                && other.food == food
+                && other.habitat == habitat)
+    }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + image
+        result = 31 * result + food.hashCode()
+        result = 31 * result + habitat.hashCode()
+        return result
+    }
 }

@@ -41,18 +41,28 @@ import com.raywenderlich.android.zooguide.model.habitat.Habitat
 
 // TODO: Implement the Walkable Interface
 
-class Elephant : Mammal(
-    "Elephant",
-    R.drawable.elephant,
-    Food.PLANTS,
-    Habitat.SAVANNA,
-    listOf(Color.parseColor("#818080"))
-) {
+class Elephant : Mammal() {
 
-  // TODO: Delete this attribute
-  val runSpeed = 40
+    // TODO: Delete this attribute
+    val runSpeed = 40
 
-  override fun getHungerAmount() : Int {
-    return (0..100).random()
-  }
+    override fun getHungerAmount(): Int {
+        return (0..100).random()
+    }
+
+    override val furColor: List<Int>
+        get() = listOf(Color.parseColor("#818080"))
+
+    override val name: String
+        get() = "Elephant"
+
+    override val image: Int
+        get() = R.drawable.elephant
+
+
+    override val food: Food
+        get() = Food.PLANTS
+
+    override val habitat: Habitat
+        get() = Habitat.SAVANNA
 }

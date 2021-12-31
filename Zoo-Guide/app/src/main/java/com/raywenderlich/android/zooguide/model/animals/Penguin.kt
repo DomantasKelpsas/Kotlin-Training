@@ -41,24 +41,34 @@ import com.raywenderlich.android.zooguide.model.habitat.Habitat
 
 // TODO: Implement the Walkable and Swimmable Interface
 
-class Penguin : Bird (
-    "Penguin",
-    R.drawable.penguin,
-    Food.FISH,
-    Habitat.OCEAN,
-    listOf(
-        Color.parseColor("#1D2026"),
-        Color.parseColor("#E2E6E9"),
-        Color.parseColor("#CC9438")
-    )
-) {
+class Penguin : Bird() {
 
-  // TODO: Delete this attribute
-  val runSpeed = 7
+    // TODO: Delete this attribute
+    val runSpeed = 7
 
-  val swimSpeed = 40
+    val swimSpeed = 40
 
-  override fun getHungerAmount() : Int {
-    return (0..100).random()
-  }
+    override fun getHungerAmount(): Int {
+        return (0..100).random()
+    }
+
+    override val feathersColor: List<Int>
+        get() = listOf(
+            Color.parseColor("#1D2026"),
+            Color.parseColor("#E2E6E9"),
+            Color.parseColor("#CC9438")
+        )
+
+    override val name: String
+        get() = "Penguin"
+
+    override val image: Int
+        get() = R.drawable.penguin
+
+
+    override val food: Food
+        get() = Food.FISH
+
+    override val habitat: Habitat
+        get() = Habitat.OCEAN
 }

@@ -41,23 +41,33 @@ import com.raywenderlich.android.zooguide.model.habitat.Habitat
 
 // TODO: Implement the Walkable Interface
 
-class Parrot : Bird(
-    "Parrot",
-    R.drawable.parrot,
-    Food.FRUIT_SEEDS,
-    Habitat.FOREST,
-    listOf(
-        Color.parseColor("#047FB4"),
-        Color.parseColor("#FC9E01"),
-        Color.parseColor("#345506"),
-        Color.parseColor("#ED000A")
-    )
-) {
+class Parrot : Bird() {
 
-  // TODO: Delete this attribute
-  val flySpeed = 30
+    // TODO: Delete this attribute
+    val flySpeed = 30
 
-  override fun getHungerAmount() : Int {
-    return (0..100).random()
-  }
+    override fun getHungerAmount(): Int {
+        return (0..100).random()
+    }
+
+    override val feathersColor: List<Int>
+        get() = listOf(
+            Color.parseColor("#047FB4"),
+            Color.parseColor("#FC9E01"),
+            Color.parseColor("#345506"),
+            Color.parseColor("#ED000A")
+        )
+
+    override val name: String
+        get() = "Parrot"
+
+    override val image: Int
+        get() = R.drawable.parrot
+
+
+    override val food: Food
+        get() = Food.FRUIT_SEEDS
+
+    override val habitat: Habitat
+        get() = Habitat.FOREST
 }

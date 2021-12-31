@@ -34,21 +34,10 @@
 
 package com.raywenderlich.android.zooguide.model.animals
 
-import androidx.annotation.DrawableRes
-import com.raywenderlich.android.zooguide.model.food.Food
-import com.raywenderlich.android.zooguide.model.habitat.Habitat
-
 // TODO: Define the Animal class as Abstract
 // TODO: Remove the properties from the constructor to abstract fields
 
-open class Mammal(
-    override val name: String,
-    @DrawableRes override val image: Int,
-    override val food: Food,
-    override val habitat: Habitat,
-    val furColor: List<Int>
-) : Animal(name, image, food, habitat) {
+abstract class Mammal : Animal() {
 
-  // TODO: Define the furColor property
-
+    abstract val furColor: List<Int>
 }

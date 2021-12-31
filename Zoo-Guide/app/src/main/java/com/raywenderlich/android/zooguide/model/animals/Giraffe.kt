@@ -41,21 +41,31 @@ import com.raywenderlich.android.zooguide.model.habitat.Habitat
 
 // TODO: Implement the Walkable Interface
 
-class Giraffe : Mammal(
-    "Giraffe",
-    R.drawable.giraffe,
-    Food.PLANTS,
-    Habitat.SAVANNA,
-    listOf(
-        Color.parseColor("#A16139"),
-        Color.parseColor("#FAEBDB")
-    )
-) {
+class Giraffe : Mammal() {
 
-  // TODO: Delete this attribute
-  val runSpeed = 60
+    // TODO: Delete this attribute
+    val runSpeed = 60
 
-  override fun getHungerAmount() : Int {
-    return (0..100).random()
-  }
+    override fun getHungerAmount(): Int {
+        return (0..100).random()
+    }
+
+    override val furColor: List<Int>
+        get() = listOf(
+            Color.parseColor("#A16139"),
+            Color.parseColor("#FAEBDB")
+        )
+
+    override val name: String
+        get() = "Giraffe"
+
+    override val image: Int
+        get() = R.drawable.giraffe
+
+
+    override val food: Food
+        get() = Food.PLANTS
+
+    override val habitat: Habitat
+        get() = Habitat.SAVANNA
 }
