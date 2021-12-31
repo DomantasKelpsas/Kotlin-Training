@@ -43,6 +43,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.raywenderlich.android.databinding.FragmentAnimalBinding
 import com.raywenderlich.android.zooguide.defineHanger
+import com.raywenderlich.android.zooguide.interfaces.Flyable
+import com.raywenderlich.android.zooguide.interfaces.Swimmable
+import com.raywenderlich.android.zooguide.interfaces.Walkable
 import com.raywenderlich.android.zooguide.loadImage
 import com.raywenderlich.android.zooguide.model.AnimalStore
 import com.raywenderlich.android.zooguide.model.animals.*
@@ -52,68 +55,69 @@ import java.lang.Exception
 
 class AnimalFragment : Fragment() {
 
-  private lateinit var binding: FragmentAnimalBinding
-  private val viewModel: AnimalViewModel by viewModels()
-  private lateinit var adapter: ColorsAdapter
+    private lateinit var binding: FragmentAnimalBinding
+    private val viewModel: AnimalViewModel by viewModels()
+    private lateinit var adapter: ColorsAdapter
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-      savedInstanceState: Bundle?): View {
-    // Inflate the layout for this fragment
-    binding = FragmentAnimalBinding.inflate(layoutInflater)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Inflate the layout for this fragment
+        binding = FragmentAnimalBinding.inflate(layoutInflater)
 
-    return binding.root
-  }
-
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
-
-    arguments?.let {
-      val name= AnimalFragmentArgs.fromBundle(it).name
-      viewModel.updateAnimal(AnimalStore.getAnimal(name))
+        return binding.root
     }
 
-    viewModel.animal.observe(viewLifecycleOwner, { animal ->
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-      animal.run {
-        binding.fullName.text = name
-        binding.animalImage.loadImage(image)
-        binding.foodImage.loadImage(food.resId)
-        binding.habitatImage.loadImage(habitat.resId)
-
-        // TODO: Implement the behaviours with the interfaces
-        binding.speedVelocity.text = when(this) {
-          is Elephant -> runSpeed.toString() + "km/h"
-          is Giraffe -> runSpeed.toString() + "km/h"
-          is Lion -> runSpeed.toString() + "km/h"
-          is Penguin -> runSpeed.toString() + "km/h"
-          is Bat -> flySpeed.toString() + "km/h"
-          is Parrot -> flySpeed.toString() + "km/h"
-          else -> throw Exception("Unknown animal")
+        arguments?.let {
+            val name = AnimalFragmentArgs.fromBundle(it).name
+            viewModel.updateAnimal(AnimalStore.getAnimal(name))
         }
 
-        // TODO: Choose the correct image using the interfaces
+        viewModel.animal.observe(viewLifecycleOwner, { animal ->
+
+            animal.run {
+                binding.fullName.text = name
+                binding.animalImage.loadImage(image)
+                binding.foodImage.loadImage(food.resId)
+                binding.habitatImage.loadImage(habitat.resId)
+
+                // TODO: Implement the behaviours with the interfaces
+                var speed = ""
+                speed = when (this) {
+                    is Swimmable -> speed.plus(this.swimmingSpeed.toString() + "km/h\n")
+                    is Flyable -> speed.plus(this.flyingSpeed.toString() + "km/h\n")
+                    is Walkable -> speed.plus(this.walkingSpeed.toString() + "km/h\n")
+                    else -> throw Exception("Unknown animal")
+                }
+                binding.speedVelocity.text = speed
+                // TODO: Choose the correct image using the interfaces
 //        binding.movementImage.loadImage()
 
-        binding.hangerText.text = animal.getHungerAmount().defineHanger()
+                binding.hangerText.text = animal.getHungerAmount().defineHanger()
 
-        setUpColorList(animal)
-      }
-    })
-  }
-
-  private fun setUpColorList(animal: Animal) {
-
-    val list = when(animal) {
-      is Mammal -> animal.furColor
-      is Bird -> animal.feathersColor
-      else -> emptyList()
+                setUpColorList(animal)
+            }
+        })
     }
 
-    adapter = ColorsAdapter(list)
+    private fun setUpColorList(animal: Animal) {
 
-    binding.colorList.apply {
-      layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-      adapter = this@AnimalFragment.adapter
+        val list = when (animal) {
+            is Mammal -> animal.furColor
+            is Bird -> animal.feathersColor
+            else -> emptyList()
+        }
+
+        adapter = ColorsAdapter(list)
+
+        binding.colorList.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = this@AnimalFragment.adapter
+        }
     }
-  }
 }

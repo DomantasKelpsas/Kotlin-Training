@@ -36,17 +36,14 @@ package com.raywenderlich.android.zooguide.model.animals
 
 import android.graphics.Color
 import com.raywenderlich.android.R
+import com.raywenderlich.android.zooguide.interfaces.Swimmable
+import com.raywenderlich.android.zooguide.interfaces.Walkable
 import com.raywenderlich.android.zooguide.model.food.Food
 import com.raywenderlich.android.zooguide.model.habitat.Habitat
 
 // TODO: Implement the Walkable and Swimmable Interface
 
-class Penguin : Bird() {
-
-    // TODO: Delete this attribute
-    val runSpeed = 7
-
-    val swimSpeed = 40
+class Penguin : Bird(), Walkable, Swimmable {
 
     override fun getHungerAmount(): Int {
         return (0..100).random()
@@ -71,4 +68,10 @@ class Penguin : Bird() {
 
     override val habitat: Habitat
         get() = Habitat.OCEAN
+
+    override val swimmingSpeed: Int
+        get() = 40
+
+    override val walkingSpeed: Int
+        get() = 7
 }

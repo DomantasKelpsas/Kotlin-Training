@@ -36,15 +36,13 @@ package com.raywenderlich.android.zooguide.model.animals
 
 import android.graphics.Color
 import com.raywenderlich.android.R
+import com.raywenderlich.android.zooguide.interfaces.Walkable
 import com.raywenderlich.android.zooguide.model.food.Food
 import com.raywenderlich.android.zooguide.model.habitat.Habitat
 
 // TODO: Implement the Walkable Interface
 
-class Elephant : Mammal() {
-
-    // TODO: Delete this attribute
-    val runSpeed = 40
+class Elephant : Mammal(), Walkable {
 
     override fun getHungerAmount(): Int {
         return (0..100).random()
@@ -65,4 +63,7 @@ class Elephant : Mammal() {
 
     override val habitat: Habitat
         get() = Habitat.SAVANNA
+
+    override val walkingSpeed: Int
+        get() = 40
 }

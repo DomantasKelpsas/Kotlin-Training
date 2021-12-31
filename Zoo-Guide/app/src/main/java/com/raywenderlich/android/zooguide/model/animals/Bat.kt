@@ -36,19 +36,18 @@ package com.raywenderlich.android.zooguide.model.animals
 
 import android.graphics.Color
 import com.raywenderlich.android.R
+import com.raywenderlich.android.zooguide.interfaces.Flyable
 import com.raywenderlich.android.zooguide.model.food.Food
 import com.raywenderlich.android.zooguide.model.habitat.Habitat
 
 // TODO: Implement the Flyable Interface
 
-class Bat : Mammal() {
+class Bat : Mammal(), Flyable {
 
     override val furColor: List<Int>
         get() = listOf(
             Color.parseColor("#463D4A")
         )
-
-    val flySpeed = 30
 
     override fun getHungerAmount() : Int {
         return (0..100).random()
@@ -65,4 +64,7 @@ class Bat : Mammal() {
 
     override val habitat: Habitat
         get() = Habitat.CAVE
+
+    override val flyingSpeed: Int
+        get() = 95
 }

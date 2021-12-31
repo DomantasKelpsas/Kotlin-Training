@@ -36,15 +36,13 @@ package com.raywenderlich.android.zooguide.model.animals
 
 import android.graphics.Color
 import com.raywenderlich.android.R
+import com.raywenderlich.android.zooguide.interfaces.Flyable
 import com.raywenderlich.android.zooguide.model.food.Food
 import com.raywenderlich.android.zooguide.model.habitat.Habitat
 
 // TODO: Implement the Walkable Interface
 
-class Parrot : Bird() {
-
-    // TODO: Delete this attribute
-    val flySpeed = 30
+class Parrot : Bird(), Flyable {
 
     override fun getHungerAmount(): Int {
         return (0..100).random()
@@ -70,4 +68,7 @@ class Parrot : Bird() {
 
     override val habitat: Habitat
         get() = Habitat.FOREST
+
+    override val flyingSpeed: Int
+        get() = 30
 }
