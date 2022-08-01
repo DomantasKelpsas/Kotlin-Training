@@ -35,6 +35,7 @@ package com.rodrigoguerrero.istate.ui.composables
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -125,9 +126,11 @@ fun RadioButtonWithText(
   @StringRes text: Int,
   modifier: Modifier = Modifier
 ) {
+  var isSelected by remember { mutableStateOf(false) }
+
   RadioButton(
-    selected = false,
-    onClick = { }
+    selected = isSelected,
+    onClick = { isSelected = !isSelected}
   )
   Text(
     text = stringResource(text),
@@ -141,21 +144,29 @@ fun DropDown(
   menuItems: List<String>,
   modifier: Modifier = Modifier
 ) {
+  var selectedItem by remember { mutableStateOf("Select your favorite Avenger:") }
+// 2.
+  var isExpanded by remember { mutableStateOf(false) }
+
   Row(
     modifier = Modifier
       .padding(vertical = 16.dp)
+      .clickable { isExpanded = true }
   ) {
-    Text("")
+    Text(selectedItem)
     Icon(Icons.Filled.ArrowDropDown, contentDescription = "")
     DropdownMenu(
-      expanded = false,
-      onDismissRequest = { },
+      expanded = isExpanded,
+      onDismissRequest = { isExpanded = false },
       modifier = modifier
         .fillMaxWidth()
         .background(Color.White)
     ) {
       menuItems.forEachIndexed { index, name ->
-        DropdownMenuItem(onClick = { }) {
+        DropdownMenuItem(onClick = {
+          selectedItem = menuItems[index]
+          isExpanded = false
+        }) {
           Text(text = name)
         }
       }
