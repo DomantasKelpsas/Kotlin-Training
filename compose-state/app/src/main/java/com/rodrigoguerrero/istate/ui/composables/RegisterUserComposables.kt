@@ -51,7 +51,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -109,9 +109,11 @@ fun EditTextField(
   @StringRes placeholder: Int,
   modifier: Modifier = Modifier
 ) {
+  var text by remember { mutableStateOf("") }
+
   OutlinedTextField(
-    value = "",
-    onValueChange = { },
+    value = text,
+    onValueChange = { text = it },
     leadingIcon = { Icon(leadingIcon, contentDescription = "") },
     modifier = modifier.fillMaxWidth(),
     placeholder = { Text(stringResource(placeholder)) }
