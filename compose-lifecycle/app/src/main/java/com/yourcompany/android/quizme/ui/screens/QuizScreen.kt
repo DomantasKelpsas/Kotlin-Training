@@ -81,7 +81,16 @@ fun QuizScreen(contentPadding: PaddingValues, quizViewModel: QuizViewModel) {
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
       ImageDecoration(modifier = Modifier.weight(1f))
-      SubmitButton(checked, stringResource(id = R.string.try_me)) { }
+      if (checked) {
+
+        questions = listOf(
+          "The answer to Life, The Universe and Everything?",
+          "What's the best programming language?",
+          "What's the best OS?"
+        )
+
+        SubmitButton(checked, stringResource(id = R.string.try_me)) { }
+      }
     }
   }
 }
@@ -105,7 +114,9 @@ fun ScreenIntroTexts() {
 fun QuizInputFields(questions: List<String>, onAnswerChanged: (String, String) -> Unit) {
   Column {
     questions.forEach { question ->
-      QuizInput(question = question)
+      key(question) {
+        QuizInput(question = question)
+      }
     }
   }
 }
