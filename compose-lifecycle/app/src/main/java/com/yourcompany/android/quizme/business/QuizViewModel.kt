@@ -55,6 +55,14 @@ class QuizViewModel : ViewModel() {
   private val _event = MutableSharedFlow<Event?>()
   val event: SharedFlow<Event?> = _event
 
+  fun fetchQuestions(): List<String> {
+    return repository.getQuestions()
+  }
+
+  fun fetchExtendedQuestions(): List<String>  {
+    return repository.getExtendedQuestions()
+  }
+
   fun onAppear() {
     Log.d(MAIN, "QuizScreen appears")
   }

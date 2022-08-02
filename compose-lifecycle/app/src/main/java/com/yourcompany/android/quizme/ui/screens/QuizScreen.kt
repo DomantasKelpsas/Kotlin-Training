@@ -61,14 +61,11 @@ fun QuizScreen(contentPadding: PaddingValues, quizViewModel: QuizViewModel) {
     val onCheckedChange: (Boolean) -> Unit = { value -> checked = value }
 
     var questions by remember {
-      mutableStateOf(
-        listOf(
-          "What's the best programming language?",
-          "What's the best OS?"
-        )
-      )
+      mutableStateOf(quizViewModel.fetchQuestions())
     }
-    val onAnswerChanged: (String, String) -> Unit = { question, answer -> }
+
+    val answers = remember { mutableMapOf<String, String>() }
+    val onAnswerChanged: (String, String) -> Unit = { question, answer -> answers[question] = answer}
 
     ScreenIntroTexts()
 
@@ -83,13 +80,9 @@ fun QuizScreen(contentPadding: PaddingValues, quizViewModel: QuizViewModel) {
       ImageDecoration(modifier = Modifier.weight(1f))
       if (checked) {
 
-        questions = listOf(
-          "The answer to Life, The Universe and Everything?",
-          "What's the best programming language?",
-          "What's the best OS?"
-        )
+        questions = quizViewModel.fetchExtendedQuestions()
 
-        SubmitButton(checked, stringResource(id = R.string.try_me)) { }
+        SubmitButton(checked, stringResource(id = R.string.try_me)) { quizViewModel.verifyAnswers(answers) }
       }
     }
   }
@@ -115,19 +108,24 @@ fun QuizInputFields(questions: List<String>, onAnswerChanged: (String, String) -
   Column {
     questions.forEach { question ->
       key(question) {
-        QuizInput(question = question)
+        QuizInput(question = question, onAnswerChanged = onAnswerChanged)
       }
     }
   }
 }
 
 @Composable
-fun QuizInput(question: String) {
+fun QuizInput(question: String, onAnswerChanged: (String, String) -> Unit) {
   Log.d(MAIN, "QuizInput $question")
   var input by remember { mutableStateOf("")}
   TextField(
     value = input,
-    onValueChange = { input = it },
+    onValueChange = {
+      run {
+        input = it
+        onAnswerChanged(question, input)
+      }
+    },
     modifier = Modifier
       .fillMaxWidth()
       .padding(top = 16.dp),
