@@ -41,6 +41,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -80,7 +81,7 @@ fun QuizScreen(contentPadding: PaddingValues, quizViewModel: QuizViewModel) {
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
       ImageDecoration(modifier = Modifier.weight(1f))
-      SubmitButton(stringResource(id = R.string.try_me)) { }
+      SubmitButton(checked, stringResource(id = R.string.try_me)) { }
     }
   }
 }
@@ -112,10 +113,10 @@ fun QuizInputFields(questions: List<String>, onAnswerChanged: (String, String) -
 @Composable
 fun QuizInput(question: String) {
   Log.d(MAIN, "QuizInput $question")
-  val input = ""
+  var input by remember { mutableStateOf("")}
   TextField(
     value = input,
-    onValueChange = { },
+    onValueChange = { input = it },
     modifier = Modifier
       .fillMaxWidth()
       .padding(top = 16.dp),
@@ -146,12 +147,13 @@ fun CheckBox(
 }
 
 @Composable
-fun SubmitButton(text: String, onClick: () -> Unit) {
+fun SubmitButton(isChecked: Boolean, text: String, onClick: () -> Unit) {
   Log.d(MAIN, "Button recomposed")
   ExtendedFloatingActionButton(
     text = {
       Text(text = text)
     },
+    backgroundColor = if (isChecked) MaterialTheme.colors.secondary else Color.Gray,
     shape = RectangleShape,
     onClick = onClick,
     modifier = Modifier
